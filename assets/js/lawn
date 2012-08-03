@@ -1,0 +1,25 @@
+//	var meals = Lawnchair('meals');
+//	var meals = Lawnchair({db:'meals'},function(e){
+//		console.log('storage open');
+//	});
+//	
+//	function saveMeal(){
+//		var mealName = $('#name').val();
+//		var mealCategory = $('#category').val();
+//		var mealComment = $('#coment').val();
+//		
+//	    // Construct an object with them - the key value is the primary key for the record.  
+//	    var mealData = {key:'meals', name:mealName, category:mealCategory, comment:mealComment};  
+//	      
+//	    // Send them to the data store  
+//	    theData.save(mealData);  
+//	      
+//	    meals.save({key:"1",value:mealData});
+//	    
+//	    alert("Saved!");  
+//	}
+//	
+//	$('#addmeal').click(function(){
+//		console.log('saved meal');
+//		saveMeal();
+//	});
