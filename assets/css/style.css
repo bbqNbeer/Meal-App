@@ -1,3 +1,26 @@
+/* Hack to fix jquery mobile transitions */
+/*.ui-page {
+	-webkit-backface-visibility: hidden;
+}*/
+
+.ui-content .ui-listview {
+margin-top: 0px;
+}
+
+.home .ui-header .ui-title{
+	text-align:left;
+	margin: .6em 0 .8em 10%; 
+}
+
+.home .header img{
+	text-align:left;
+	float:left;
+	width:30px;
+	height:30px;
+	background-color:red;
+	margin: .3em;
+}
+
 /* =============================================================================
    HTML5 Boilerplate CSS: h5bp.com/css
    ========================================================================== */

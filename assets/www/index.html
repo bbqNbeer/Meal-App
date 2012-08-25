@@ -11,16 +11,13 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="viewport" content="width=device-width">
+	<!--<link rel="stylesheet" href="../css/jquery.mobile-1.1.1.css">-->
+	<link rel="stylesheet" href="../js/libs/jqm/jquery.mobile-1.2.0-alpha.1.css">
 	<link rel="stylesheet" href="../css/style.css">
-	<link rel="stylesheet" href="../css/jquery.mobile-1.1.0.css">
 	<!--<script src="js/libs/modernizr-2.5.3.min.js"></script>-->
-	<script src="../js/libs/jquery-1.7.1.min.js"></script>
-	<script src="../js/libs/jquery.mobile-1.1.1.min.js"></script>
-    <!--  <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.6/underscore-min.js"></script>-->
-	<script type='text/javascript' src='../js/libs/knockout-2.0.0.js'></script>
-	<!--  <script type='text/javascript' src='../js/libs/persistence.js'></script>
-	<script type='text/javascript' src='../js/libs/persistence.store.sql.js'></script>
-	<script type='text/javascript' src='../js/libs/persistence.store.websql.js'></script>-->
+	<script src="../js/libs/jquery-1.7.2.min.js"></script>
+	<!--<script src="../js/libs/jquery.mobile-1.1.1.min.js"></script>-->
+	<script src="../js/libs/jqm/jquery.mobile-1.2.0-alpha.1.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="cordova-1.7.0.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../js/libs/lawnchair-min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../js/libs/webkit-sqlite.js"></script>
@@ -30,43 +27,149 @@
 </head>
 <body>
 
-<div id="intro" class="intro" data-theme="b" data-role="page">
-	<div data-role="header" id="hdrSelect">
-		<h1 role="heading">What's for Dinner?</h1>
-	  <div data-role="navbar">
-		<ul>
-			<li><a href="#intro" data-transition="flip">intro</a></li>
-			<li><a href="#meal-form" data-transition="flip">add meal</a></li>
-			<li><a href="#list" data-transition="flip">meal list</a></li>
-		</ul>
-	  </div>
+<div id="home" class="home" data-theme="b" data-role="page">
+	<div data-role="header" class="header">
+		<img src="" />
+		<h1>What's for Dinner?</h1>
+		<a href="#add-meal" data-transition="none" data-icon="plus" class="ui-btn-right" data-theme="b">Add Meal</a>
 	</div>
 	<div data-role="content" role="main">
-		<p>This is where something cool will be.</p>
-	</div>
-		<div data-role="footer">
-	 footer
-	</div>
-</div>
-
-
-<div id="meal-form" class="add-meal" data-theme="b" data-role="page">
-	<div data-role="header" id="hdrSelect" data-nobackbtn="false">
-			<h1>What's for Dinner?</h1>
-			<div data-role="navbar">
+		<input id="meal-search" placeholder="Meal Search" data-mini="true" data-type="search" />
+		<div data-role="navbar">
 				<ul>
-					<li><a href="#intro" transition="fade">intro</a></li>
-					<li><a href="#meal-form" transition="flip">add meal</a></li>
-								<li><a href="#list">meal list</a></li>
+					<li><a href="#">Category</a></li>
+					<li><a href="#">Rating</a></li>
+				</ul>
+	  </div>
+		<div>
+			<ul id="meals" data-role="listview" >
+				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#meal" data-transition="none">meal 1</a></li>
+				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#meal" data-transition="none">meal 2</a></li>
+				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#meal" data-transition="none">meal 4</a></li>
+				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 5</a></li>
+				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 6</a></li>
+				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 7</a></li>
+				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 8</a></li>
+			</ul>
+		</div>
+	</div>
+	<div data-role="footer" data-position="fixed">
+	 	  <div data-role="navbar">
+				<ul>
+					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
+					<li><a href="#recipes" data-transition="none">Recipes</a></li>
 				</ul>
 	  </div>
 	</div>
+</div>
+
+<div id="add-meal" class="add-meal" data-theme="b" data-role="page">
+<div data-role="header" class="header">
+			<a href="#" data-icon="back" data-transition="none" data-rel="back" data-role="button" data-theme="b" class="ui-btn-left" data-mini="true">Back</a>
+			<h1>Add Meal</h1>
+			<!--<a href="#" data-role="button" data-theme="b" class="ui-btn-right" data-transition="none" data-mini="true">Cancel</a>
+			<a href="#" data-role="button" data-theme="b" class="ui-btn-right" data-transition="none" data-mini="true">Save Meal</a>-->
+	</div>
 	<div data-role="content">
-	<!--<h2>Fill out the form to add a new meal.</h2>-->
 		<input id="name" placeholder="Meal Name" data-mini="true" />
-		<!--  <input id="addCategory" placeholder="Meal Category" />-->
-		<!-- <select placeholder="Select Category" />-->
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<select id="category" data-mini="true">
+					<option val="0">Select Category</option>
+					<option val="1">Italian</option>
+					<option val="2">Home Cooking</option>
+					<option val="3">BBQ</option>
+					<option val="4">Comfort Food</option>
+				</select>
+			</div>
+			<div class="ui-block-b">
+				<!--<button  type="button" onclick=""  data-theme="b" data-mini="true" data-icon="plus">Category</button>-->
+				<a  href="#category_add_new" data-rel="dialog" data-role="button" data-mini="true" data-icon="plus">Category</a>
+				
+			</div>
+		</div>
+
+		<!--<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<input type="range" name="slider-mini" id="slider-mini" value="4" min="0" max="5" data-highlight="true" data-mini="true" />
+			</div>
+			<div class="ui-block-b">
+				<button  type="button" onclick=""  data-theme="b" data-mini="true" data-icon="plus">Add Image</button>
+			</div>
+		</div>-->
+		<div data-role="fieldcontain">
+			<label for="slider-mini">Rating:</label>
+			<input type="range" name="slider-mini" id="slider-mini" value="4" min="0" max="5" data-highlight="true" data-mini="true" data-theme="a" />
+		</div>
+		<!--<button  type="button" onclick=""  data-theme="b" data-mini="true" data-icon="plus">Add Image</button>-->
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<button  type="button" onclick=""  data-theme="b" data-mini="true" data-icon="plus">Image</button>
+			</div>
+			<div class="ui-block-b">
+				<button  type="button" onclick=""  data-theme="b" data-mini="true" data-icon="plus">Audio Note</button>
+			</div>
+		</div>
+		<textarea id="comments"  placeholder="Comments" data-mini="true"></textarea>
+		<input id="link" placeholder="link to recipe" data-mini="true" />
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<button id="addmeal" type="button" onclick="SaveMeal();" data-mini="true" data-theme="b" data-mini="true">Save Meal</button>
+			</div>
+			<div class="ui-block-b">
+				<button id="addmeal" type="button"  data-mini="true" data-theme="b" data-mini="true">Cancel</button>
+			</div>
+		</div>
+		
+	</div>
+	<div data-role="footer" data-position="fixed">
+	 	  <div data-role="navbar">
+				<ul>
+					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
+					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+				</ul>
+	  </div>
+	</div>
+</div>
+
+<div id="category_add_new" data-role="page" data-rel="dialog">
+	 <div data-role="header">
+        <h1>Add a New Category</h1>
+    </div>
+	  <div data-role="content">
+			<input id="addcategory" placeholder="Enter a Category" data-mini="true" />
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<button id="savecategory" type="button"  data-mini="true" data-theme="b" data-mini="true">Save Category</button>
+				</div>
+				<div class="ui-block-b">
+					<a href="#"  type="button"  data-mini="true" data-theme="b" data-mini="true" data-rel="back">Cancel</a>
+				</div>
+			</div>
+	</div>
+</div>
+
+<div id="edit-meal" class="edit-meal" data-theme="b" data-role="page">
+	<div data-role="header" class="header">
+		<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<a href="#" data-icon="back" data-transition="none" data-rel="back" data-role="button" data-theme="b" class="ui-btn-left" data-mini="true">Back</a>
+				</div>
+				<div class="ui-block-b">
+					<h1>Edit Meal</h1>
+				</div>
+				<div class="ui-block-c">
+          asdf
+				</div>
+		</div>
+	</div>
+
+	<div data-role="content">
+		<input id="name" placeholder="Meal Name" data-mini="true" />
 		<select id="category" data-mini="true">
+			<option val="0">Select a Meal Category</option>
 			<option val="1">Italian</option>
 			<option val="2">Home Cooking</option>
 			<option val="3">BBQ</option>
@@ -74,47 +177,105 @@
 		</select>
 		<textarea id="comments"  placeholder="Comments" data-mini="true"></textarea>
 		<input id="link" placeholder="link to recipe" data-mini="true" />
-		<input id="linkText" placeholder="link text" data-mini="true" />
-		<button id="addmeal" type="button" onclick="SaveMeal();" data-mini="true">Add Meal</button>
-		<!--<a href="#" id="addmeal">add meal</a>-->
-	<ul id="meals" data-role="listview" data-inset="true" data-filter="true"></ul>
 	</div>
-	<div data-role="footer">
-		<h2 role="heading">Footer</h2>
-	</div>
-</div>
-
-<div id="list" class="intro" data-theme="b" data-role="page">
-	<div data-role="header" id="hdrSelect">
-		<h1 role="heading">What's for Dinner?</h1>
-	  <div data-role="navbar">
-		<ul>
-			<li><a href="#intro">intro</a></li>
-			<li><a href="#meal-form">add meal</a></li>
-			<li><a href="#list">meal list</a></li>
-		</ul>
+	<div data-role="footer" data-position="fixed">
+	 	  <div data-role="navbar">
+				<ul>
+					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
+					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+				</ul>
 	  </div>
 	</div>
+</div>
+
+<div id="meal" class="meal" data-theme="b" data-role="page">
+	<div data-role="header" class="header">
+			<a href="#" data-icon="back" data-transition="none" data-rel="back" data-role="button" data-theme="b" class="ui-btn-left" data-mini="true">Back</a>
+			<h1></h1>
+			<a href="#edit-meal" data-role="button" data-theme="b" class="ui-btn-right" data-transition="none" data-mini="true">Edit Meal</a>
+	</div>
 	<div data-role="content">
-		<div data-role="collapsible-set">
-
-	<div data-role="collapsible" data-collapsed="false">
-	<h3>Section 1</h3>
-	<p>I'm the collapsible set content for section 1.</p>
+		<div>
+			<img src="#" />
+			<h1>Meal Name</h1>
+			<h2>Meal Category</h2>
+			<p>Meal Rating</p>
+		</div>
+		<p>Meal Notes</p>
+		<a href="#">Link to recipe</a>
 	</div>
-	
-	<div data-role="collapsible">
-	<h3>Section 2</h3>
-	<p>I'm the collapsible set content for section 2.</p>
+	<div data-role="footer" data-position="fixed">
+	 	  <div data-role="navbar">
+				<ul>
+					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
+					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+				</ul>
+	  </div>
 	</div>
-	
 </div>
-	<div data-role="footer">
-	 footer
+
+<div id="meal-calendar" class="meal-calendar" data-theme="b" data-role="page">
+	<div data-role="header" class="header">
+			<a href="#" data-icon="back" data-transition="none" data-rel="back" data-role="button" data-theme="b" class="ui-btn-left" data-mini="true">Back</a>
+			<h1></h1>
+			<a href="#edit-meal" data-role="button" data-theme="b" class="ui-btn-right" data-transition="none" data-mini="true">Edit Meal</a>
+	</div>
+	<div data-role="navbar" data-mini="true">
+		<ul>
+			<li><a href="#intro" data-transition="none">Day</a></li>
+			<li><a href="#meal-cal" data-transition="none">Week</a></li>
+			<li><a href="#recipes" data-transition="none">Month</a></li>
+		</ul>
+	</div>
+	<div data-role="content" class="day">
+		<div>
+			<img src="#" />
+			<h1>Meal Name</h1>
+			<h2>Meal Category</h2>
+			<p>Meal Rating</p>
+		</div>
+		<p>Meal Notes here</p>
+	</div>
+	<div data-role="content" class="week" style="display:none;">
+		<div>
+			<img src="#" />
+			<h1>Meal Name</h1>
+			<h2>Meal Category</h2>
+			<p>Meal Rating</p>
+		</div>
+		<p>Meal Notes here</p>
+	</div>
+	<div data-role="content" class="month" style="display:none;">
+	</div>
+	<div data-role="footer" data-position="fixed">
+	 	  <div data-role="navbar">
+				<ul>
+					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
+					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+				</ul>
+	  </div>
 	</div>
 </div>
-
-	
 
 </body>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			/*$('#intro').bind( 'mobileinit', function(){
+				$.mobile.loader.prototype.options.text = "loading";
+				$.mobile.loader.prototype.options.textVisible = false;
+				$.mobile.loader.prototype.options.theme = "a";
+				$.mobile.loader.prototype.options.html = "";
+			});*/
+			//alert('test');
+			if( navigator.platform === 'iPad' ){
+				alert('ipad targeting test');
+    // console.log('ipad')
+
+		}
+		});
+	</script>
 </html>
