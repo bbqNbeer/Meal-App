@@ -30,7 +30,7 @@
 <div id="home" class="home" data-theme="b" data-role="page">
 	<div data-role="header" class="header">
 		<img src="" />
-		<h1>What's for Dinner? testing</h1>
+		<h1>What's for Dinner?</h1>
 		<a href="#add-meal" data-transition="none" data-icon="plus" class="ui-btn-right" data-theme="b">Add Meal</a>
 	</div>
 	<div data-role="content" role="main">
@@ -43,13 +43,13 @@
 	  </div>
 		<div>
 			<ul id="meals" data-role="listview" >
-				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#meal" data-transition="none">meal 1</a></li>
+				<!--<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#meal" data-transition="none">meal 1</a></li>
 				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#meal" data-transition="none">meal 2</a></li>
 				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#meal" data-transition="none">meal 4</a></li>
 				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 5</a></li>
 				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 6</a></li>
 				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 7</a></li>
-				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 8</a></li>
+				<li data-mini="true"><img src="" class="ui-li-thumb" /><a href="#" data-transition="none">meal 8</a></li>-->
 			</ul>
 		</div>
 	</div>
@@ -76,11 +76,11 @@
 		<div class="ui-grid-a">
 			<div class="ui-block-a">
 				<select id="category" data-mini="true">
-					<option val="0">Select Category</option>
-					<option val="1">Italian</option>
-					<option val="2">Home Cooking</option>
-					<option val="3">BBQ</option>
-					<option val="4">Comfort Food</option>
+					<option value="0">Select Category</option>
+					<option value="1">Italian</option>
+					<option value="2">Home Cooking</option>
+					<option value="3">BBQ</option>
+					<option value="4">Comfort Food</option>
 				</select>
 			</div>
 			<div class="ui-block-b">
@@ -105,17 +105,17 @@
 		<!--<button  type="button" onclick=""  data-theme="b" data-mini="true" data-icon="plus">Add Image</button>-->
 		<div class="ui-grid-a">
 			<div class="ui-block-a">
-				<button  type="button" onclick=""  data-theme="b" data-mini="true" data-icon="plus">Image</button>
+				<button  type="button" data-theme="b" data-mini="true" data-icon="plus">Image</button>
 			</div>
 			<div class="ui-block-b">
-				<button  type="button" onclick=""  data-theme="b" data-mini="true" data-icon="plus">Audio Note</button>
+				<button  type="button" data-theme="b" data-mini="true" data-icon="plus">Audio Note</button>
 			</div>
 		</div>
 		<textarea id="comments"  placeholder="Comments" data-mini="true"></textarea>
 		<input id="link" placeholder="link to recipe" data-mini="true" />
 		<div class="ui-grid-a">
 			<div class="ui-block-a">
-				<button id="addmeal" type="button" onclick="SaveMeal();" data-mini="true" data-theme="b" data-mini="true">Save Meal</button>
+				<button id="addmeal" type="button"  data-mini="true" data-theme="b" data-mini="true">Save Meal</button>
 			</div>
 			<div class="ui-block-b">
 				<button id="addmeal" type="button"  data-mini="true" data-theme="b" data-mini="true">Cancel</button>
@@ -142,7 +142,8 @@
 			<input id="addcategory" placeholder="Enter a Category" data-mini="true" />
 			<div class="ui-grid-a">
 				<div class="ui-block-a">
-					<button id="savecategory" type="button"  data-mini="true" data-theme="b" data-mini="true">Save Category</button>
+					<!--<button id="savecategory" type="button"  data-mini="true" data-theme="b" data-mini="true">Save Category</button>-->
+					<a href="#"  id="savecategory" type="button"  data-mini="true" data-theme="b" data-mini="true">Save Category</a>
 				</div>
 				<div class="ui-block-b">
 					<a href="#"  type="button"  data-mini="true" data-theme="b" data-mini="true" data-rel="back">Cancel</a>
@@ -168,7 +169,7 @@
 
 	<div data-role="content">
 		<input id="name" placeholder="Meal Name" data-mini="true" />
-		<select id="category" data-mini="true">
+		<select id="select_category" data-mini="true">
 			<option val="0">Select a Meal Category</option>
 			<option val="1">Italian</option>
 			<option val="2">Home Cooking</option>

@@ -13,17 +13,24 @@
 	// clear the db
 	//meals.nuke();
 	
+	function SaveNewCategory(){
+		var new_cat = $('#addcategory').val(),
+					last_option_val = $('#category option:last-child').val();
+					new_option_val = parseInt(last_option_val) + 1,
+					new_option = '<option value="' + new_option_val + '">' + new_cat + '</option>';
+		$('#category').append(new_option);
+	}
+	
 	function SaveMeal(){
-		var name = $('#name').val();
-		var category = $('#category').val();
-		var comment = $('#comments').val();
-		var rating = $('#rating').val();
-		var link = $('#link').val();
-		
-		//console.log(name + ' ' + category + ' ' + comment);
-		var mealID = randomUUID();
-		var meal = { name: name, category: category, comments: comment, rating: rating, link: link };
+		var name = $('#name').val(),
+					category = $('#category').val(),
+					comment = $('#comments').val(),
+					rating = $('#rating').val(),
+					link = $('#link').val(),
+	        mealID = randomUUID(),
+					meal = { name: name, category: category, comments: comment, rating: rating, link: link };
 		meals.save({key: mealID, value:meal}); 
+		//console.log(name + ' ' + category + ' ' + comment);
 		
 //		var obj1 = {beername:"Wet Hop",brewername:"Deschuttes",brewerlocation:"Bend, OR"
 //			,beerstyle:"IPA",quantity:1,purchasedate:"12/11/2011",price:"9.00"
@@ -36,10 +43,13 @@
 		//alert(obj1.beername);
 		
 		// Append the saved meal to the displayed list
-		var item = '<li id="' + mealID + '">' + name + '<a class="edit" onclick="' + EditMeal(mealID) + '" href="#">Edit Meal</a></li>';
+		//var item = '<li id="' + mealID + '">' + name + '<a class="edit" onclick="' + EditMeal(mealID) + '" href="#">Edit Meal</a></li>';
+		var item = '<li id="' + mealID + '">' + name + '<a class="edit" onclick="javascript:EditMeal(mealID);" href="#">Edit Meal</a></li>';
 		$('#meals').append(item);
 		//$('#meals').append('<a class="delete" onclick="' + DeleteMeal(mealID) + '" href="#">Delete Meal</a>');
-		$('#meals').listview("refresh");
+		$('#add-meal').live('pageinit', function(event){
+				$('#meals').listview("refresh");
+		});
 	}
 		
 	// Get all meals and display them
@@ -47,13 +57,16 @@
 		 meals.all(function(arrMeals){
 			for(var i = 0; i<arrMeals.length;i++)
 			{
-				//var section = '<li><section>' + arrMeals[i].value.beername + '</section></li>';
 				var mealID = arrMeals[i].key;
-				var item = '<li id="' + mealID + '">' + arrMeals[i].value.name + '<a class="edit" onclick="' + EditMeal(mealID) + '" href="#">Edit Meal</a></li>';
+				//var item = '<li id="' + mealID + '">' + arrMeals[i].value.name + '<a class="edit" onclick="' + EditMeal(mealID) + '" href="#">Edit Meal</a></li>';
+				var item = '<li data-mini="true"><a class="" id="' + mealID + '" href="#">' + arrMeals[i].value.name + '</a></li>';
 				$('#meals').append(item);
-				$('#meals').append('<a class="delete" onclick="' + DeleteMeal(mealID) + '" href="#">Delete Meal</a>');
+				//$('#meals').append('<a class="delete" onclick="' + DeleteMeal(mealID) + '" href="#">Delete Meal</a>');
 			}
 			$('#meals').listview("refresh");
+			$('#meals').live('pageinit', function(){
+				$('#meals').listview("refresh");
+			});
 		});
 	}
 	
@@ -68,18 +81,24 @@
 			obj.name = "NEW NAME";
 			meals.save({ key: thisobj.key, value: obj });
 		});
-		$('#meals').listview("refresh");
+	//	$('#meals').listview("refresh");
+		$('#edit-meal').live('pageinit', function(event){
+				$('#meals').listview("refresh");
+		});
 	}
 	
 	function DeleteMeal(mealID){
-		console.log('DELETE!');
-		console.log(mealID);
+		//console.log('DELETE!');
+		//console.log(mealID);
 		var element = $('#' + mealID);
 		// TODO: remove() doesn't like a variable, works if i hard code the id as string
 		meals.remove('1C6301CEF0522D467B18FCA409C490FF');
 		//meals.remove(mealID);
 		$(element).remove();
-		$('#meals').listview("refresh");
+		//$('#meals').listview("refresh");
+		$('#edit-meal').live('pageinit', function(event){
+				$('#meals').listview("refresh");
+		});
 	}
 	
 	// Create randome ID
@@ -99,6 +118,39 @@
 	}
 	
 	//SaveMeal();
-	AllMeals();
+
+	
+	// Jquery document ready events
+	// $(document).live('pageinit', function(){
+		// AllMeals();
+
+		// $('#savecategory').click(function(e){
+			// e.preventDefault();
+			// SaveNewCategory();
+			// $('#category_add_new.ui-dialog').dialog('close');
+		// });
+
+		// $('#addmeal').click(function(){
+			// SaveMeal();
+		// });
+		
+	
+	// });
+	
+		$(document).ready(function(){
+			AllMeals();
+
+			$('#savecategory').click(function(e){
+				e.preventDefault();
+				SaveNewCategory();
+				$('#category_add_new.ui-dialog').dialog('close');
+			});
+
+			$('#addmeal').click(function(){
+				SaveMeal();
+			});
+		
+	 });
+	
 //});
 
