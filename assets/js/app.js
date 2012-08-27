@@ -33,10 +33,10 @@
 					category_name = $('#category').val(),
 					category_id = $('#category').val(),
 					comment = $('#comments').val(),
-					rating = $('#rating').val();
+					rating = $('#rating').val(),
 					link = $('#link').val(),
-					cat_options = $('#category').find('option');
-					cat_options_len = cat_options.length;
+					cat_options = $('#category').find('option'),
+					cat_options_len = cat_options.length,
 	        mealID = randomUUID(),
 					meal = { name: name, category_name: category_name, category_id: category_id, comments: comment, rating: rating, link: link };
 					
