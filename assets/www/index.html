@@ -19,8 +19,11 @@
 	<!--<script src="../js/libs/jquery.mobile-1.1.1.min.js"></script>-->
 	<script src="../js/libs/jqm/jquery.mobile-1.2.0-alpha.1.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="cordova-1.7.0.js"></script>
-	<script type="text/javascript" charset="utf-8" src="../js/libs/lawnchair-min.js"></script>
+<!--	<script type="text/javascript" charset="utf-8" src="../js/libs/lawnchair-min.js"></script> -->
+	<script type="text/javascript" charset="utf-8" src="../js/libs/lawnchair-0.6.1.min.js"></script>
+	<!--<script type="text/javascript" charset="utf-8" src="../js/libs/lawnchair-adapter-gears-sqlite-0.6.1.js"></script>-->
 	<script type="text/javascript" charset="utf-8" src="../js/libs/webkit-sqlite.js"></script>
+	<!--<script type="text/javascript" charset="utf-8" src="../js/libs/lawnchair-adapter-indexed-db-0.6.1.js"></script>-->
 	<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
 
 
@@ -56,9 +59,10 @@
 	<div data-role="footer" data-position="fixed">
 	 	  <div data-role="navbar">
 				<ul>
-					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#home" data-transition="none">Meals</a></li>
 					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
 					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+					<li><a href="#settings" data-transition="none">Settings</a></li>
 				</ul>
 	  </div>
 	</div>
@@ -126,9 +130,10 @@
 	<div data-role="footer" data-position="fixed">
 	 	  <div data-role="navbar">
 				<ul>
-					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#home" data-transition="none">Meals</a></li>
 					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
 					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+					<li><a href="#settings" data-transition="none">Settings</a></li>
 				</ul>
 	  </div>
 	</div>
@@ -185,6 +190,7 @@
 					<li><a href="#intro" data-transition="none">Meals</a></li>
 					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
 					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+					<li><a href="#settings" data-transition="none">Settings</a></li>
 				</ul>
 	  </div>
 	</div>
@@ -199,19 +205,40 @@
 	<div data-role="content">
 		<div>
 			<img src="#" />
-			<h1>Meal Name</h1>
-			<h2>Meal Category</h2>
-			<p>Meal Rating</p>
+			<h1></h1>
+			<h2></h2>
+			<p class="rating"></p>
 		</div>
-		<p>Meal Notes</p>
-		<a href="#">Link to recipe</a>
+		<p class="notes"></p>
+		<a class="recipe-link" href="#"></a>
 	</div>
 	<div data-role="footer" data-position="fixed">
 	 	  <div data-role="navbar">
 				<ul>
-					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#home" data-transition="none">Meals</a></li>
 					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
 					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+					<li><a href="#settings" data-transition="none">Settings</a></li>
+				</ul>
+	  </div>
+	</div>
+</div>
+
+<<div id="settings"  data-theme="b" data-role="page">
+	<div data-role="header" class="header">
+			<a href="#" data-icon="back" data-transition="none" data-rel="back" data-role="button" data-theme="b" class="ui-btn-left" data-mini="true">Back</a>
+			<h1>App Settings</h1>
+	</div>
+	<div data-role="content">
+		<button  type="button"  id="delete_db" data-theme="b" data-mini="true" data-icon="delete">Delete All Meals</button>
+	</div>
+	<div data-role="footer" data-position="fixed">
+	 	  <div data-role="navbar">
+				<ul>
+					<li><a href="#home" data-transition="none">Meals</a></li>
+					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
+					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+					<li><a href="#settings" data-transition="none">Settings</a></li>
 				</ul>
 	  </div>
 	</div>
@@ -244,39 +271,23 @@
 			<img src="#" />
 			<h1>Meal Name</h1>
 			<h2>Meal Category</h2>
-			<p>Meal Rating</p>
+			<p class="rating">Meal Rating</p>
 		</div>
-		<p>Meal Notes here</p>
+		<p class="notes">Meal Notes here</p>
 	</div>
 	<div data-role="content" class="month" style="display:none;">
 	</div>
 	<div data-role="footer" data-position="fixed">
 	 	  <div data-role="navbar">
 				<ul>
-					<li><a href="#intro" data-transition="none">Meals</a></li>
+					<li><a href="#home" data-transition="none">Meals</a></li>
 					<li><a href="#meal-calendar" data-transition="none">Planner</a></li>
 					<li><a href="#recipes" data-transition="none">Recipes</a></li>
+					<li><a href="#settings" data-transition="none">Settings</a></li>
 				</ul>
 	  </div>
 	</div>
 </div>
 
 </body>
-
-	<script type="text/javascript">
-		$(document).ready(function(){
-			/*$('#intro').bind( 'mobileinit', function(){
-				$.mobile.loader.prototype.options.text = "loading";
-				$.mobile.loader.prototype.options.textVisible = false;
-				$.mobile.loader.prototype.options.theme = "a";
-				$.mobile.loader.prototype.options.html = "";
-			});*/
-			//alert('test');
-			if( navigator.platform === 'iPad' ){
-				alert('ipad targeting test');
-    // console.log('ipad')
-
-		}
-		});
-	</script>
 </html>

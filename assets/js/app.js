@@ -21,15 +21,52 @@
 		$('#category').append(new_option);
 	}
 	
+	function ValidateInput(elementID, displayText){
+		$(elementID).val(displayText).css({ 'border' : 'solid 1px red', 'color' : 'red' });
+		$(elementID).focus(function(){
+			$(this).val('').attr('placeholder', '').css({ 'border' : 'solid 1px red', 'color' : '#AAA' });
+		});
+	}
+	
 	function SaveMeal(){
 		var name = $('#name').val(),
-					category = $('#category').val(),
+					category_name = $('#category').val(),
+					category_id = $('#category').val(),
 					comment = $('#comments').val(),
-					rating = $('#rating').val(),
+					rating = $('#rating').val();
 					link = $('#link').val(),
+					cat_options = $('#category').find('option');
+					cat_options_len = cat_options.length;
 	        mealID = randomUUID(),
-					meal = { name: name, category: category, comments: comment, rating: rating, link: link };
-		meals.save({key: mealID, value:meal}); 
+					meal = { name: name, category_name: category_name, category_id: category_id, comments: comment, rating: rating, link: link };
+					
+    // meal name must be greater than 3 characters
+		if(name.length <= 4){
+			ValidateInput('#name', 'Meal name must be longer than 3 characters');
+		} else {
+			// make sure the category name doesn't already exist
+			for(i = 0; i <= cat_options_len; i++){
+				var option_text = $(cat_options[i]).text();
+				if(name === option_text){
+					ValidateInput('#name', 'Meal name already exists, please enter a new name');
+				} 
+			}
+			// check to see if a category has been selected
+			if(category != 0){
+				meals.save({key: mealID, value:meal}); 
+			} else {
+				console.log('category val: ' + category);
+				$('#category').parent().css({ 'border' : 'solid 1px red', 'color' : 'red' });
+				//$('#category option:first').css({ 'border' : 'solid 1px red', 'color' : 'red' });
+				$('#category').change(function(){
+					if($(this).val() != 0) {
+						$(this).parent().removeAttr('style');
+					} else {
+						$('#category').parent().css({ 'border' : 'solid 1px red', 'color' : 'red' });
+					}
+				});
+			}
+		}
 		//console.log(name + ' ' + category + ' ' + comment);
 		
 //		var obj1 = {beername:"Wet Hop",brewername:"Deschuttes",brewerlocation:"Bend, OR"
@@ -44,29 +81,41 @@
 		
 		// Append the saved meal to the displayed list
 		//var item = '<li id="' + mealID + '">' + name + '<a class="edit" onclick="' + EditMeal(mealID) + '" href="#">Edit Meal</a></li>';
-		var item = '<li id="' + mealID + '">' + name + '<a class="edit" onclick="javascript:EditMeal(mealID);" href="#">Edit Meal</a></li>';
+		var item = '<li id="' + mealID + '"><a href="#meal" data-transition="none">' + name + '</a></li>';
 		$('#meals').append(item);
 		//$('#meals').append('<a class="delete" onclick="' + DeleteMeal(mealID) + '" href="#">Delete Meal</a>');
 		$('#add-meal').live('pageinit', function(event){
 				$('#meals').listview("refresh");
 		});
 	}
+
+	function MealView(){
+			$.urlParam = function(name){
+			var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href),
+						mealID = results[1];
+			console.log('results: ' + results[1]);
+		
+			return mealID || 0;
+		}
+		
+		$.urlParam('mealID');
+
+	}
 		
 	// Get all meals and display them
 	function AllMeals(){
+	
 		 meals.all(function(arrMeals){
 			for(var i = 0; i<arrMeals.length;i++)
 			{
 				var mealID = arrMeals[i].key;
 				//var item = '<li id="' + mealID + '">' + arrMeals[i].value.name + '<a class="edit" onclick="' + EditMeal(mealID) + '" href="#">Edit Meal</a></li>';
-				var item = '<li data-mini="true"><a class="" id="' + mealID + '" href="#">' + arrMeals[i].value.name + '</a></li>';
+				//var item = '<li data-mini="true"><a class="" id="' + mealID + '" href="#">' + arrMeals[i].value.name + '</a></li>';
+				var item = '<li data-mini="true" id="' + mealID + '"><a href="#meal?mealID=' + mealID + '" data-transition="none">' + arrMeals[i].value.name + '</a></li>';
 				$('#meals').append(item);
 				//$('#meals').append('<a class="delete" onclick="' + DeleteMeal(mealID) + '" href="#">Delete Meal</a>');
 			}
 			$('#meals').listview("refresh");
-			$('#meals').live('pageinit', function(){
-				$('#meals').listview("refresh");
-			});
 		});
 	}
 	
@@ -117,40 +166,53 @@
 		return s.join('');
 	}
 	
-	//SaveMeal();
-
-	
 	// Jquery document ready events
-	// $(document).live('pageinit', function(){
-		// AllMeals();
-
-		// $('#savecategory').click(function(e){
-			// e.preventDefault();
-			// SaveNewCategory();
-			// $('#category_add_new.ui-dialog').dialog('close');
-		// });
-
-		// $('#addmeal').click(function(){
-			// SaveMeal();
-		// });
-		
-	
-	// });
-	
-		$(document).ready(function(){
-			AllMeals();
-
-			$('#savecategory').click(function(e){
-				e.preventDefault();
-				SaveNewCategory();
-				$('#category_add_new.ui-dialog').dialog('close');
+		// $(document).ready(function(){
+			// $('#meals').listview("refresh");
+	 // });
+	 
+		$('#home').live('pageinit', function(){
+				AllMeals();
+				//$('#meals').listview('refresh');
+				console.log('home page');
 			});
+			
 
-			$('#addmeal').click(function(){
-				SaveMeal();
+			$('#add-meal').live('pageinit', function(){
+				$('#savecategory').click(function(e){
+					SaveNewCategory();
+					$('#category_add_new.ui-dialog').dialog('close');
+				});
+			
+				$('#addmeal').click(function(){
+					SaveMeal();
+				});
 			});
+			
+		$('#settings').live('pageinit', function(){
+			$('#delete_db').click(function(){
+				meals.nuke();
+			});
+		});
 		
-	 });
+		$('#meal').live('pageinit', function(event){
+			console.log('meal page');
+			var current_url = window.location.href;
+			console.log('meal page url: ' + current_url);
+			MealView();
+		var meal_id = $.urlParam('mealID');
+		meals.get(meal_id, function(results){
+			var meal = results.value;
+			console.log(meal);
+			$('#meal h1').text(meal.name);
+			$('#meal h2').text(meal.category);
+			$('#meal .rating').text(meal.rating);
+			$('#meal .notes').text(meal.comments);
+			$('#meal .recipe-link').attr('href', meal.link).text(meal.link);
+		});
+	});
+	 
+
 	
 //});
 
