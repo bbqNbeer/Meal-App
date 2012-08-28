@@ -16,7 +16,9 @@
 	<script src="../js/libs/jqm/jquery.mobile-1.2.0-alpha.1.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="cordova-1.7.0.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../js/libs/lawnchair-0.6.1.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="../js/libs/underscore-min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="../js/libs/webkit-sqlite.js"></script>
+	<!--<script type="text/javascript" charset="utf-8" src="../js/libs/lawnchair-adapter-indexed-db-0.6.1.js"></script>-->
 	<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
 </head>
 <body>
@@ -74,10 +76,8 @@
 			<div class="ui-block-a">
 				<select id="category" data-mini="true">
 					<option value="0">Select Category</option>
-					<option value="1">Italian</option>
-					<option value="2">Home Cooking</option>
-					<option value="3">BBQ</option>
-					<option value="4">Comfort Food</option>
+					<option value="1">BBQ</option>
+					<option value="2">Soul Food</option>
 				</select>
 			</div>
 			<div class="ui-block-b">
@@ -225,6 +225,7 @@
 	</div>
 	<div data-role="content">
 		<button  type="button"  id="delete_db" data-theme="b" data-mini="true" data-icon="delete">Delete All Meals</button>
+		<button  type="button"  id="delete_cat" data-theme="b" data-mini="true" data-icon="delete">Delete All Categories</button>
 	</div>
 	<div data-role="footer" data-position="fixed">
 	 	  <div data-role="navbar">
@@ -263,7 +264,6 @@
 	</div>
 	<div data-role="content" class="week" style="display:none;">
 		<div>
-
 			<h1>Meal Name</h1>
 			<h2>Meal Category</h2>
 			<p class="rating">Meal Rating</p>

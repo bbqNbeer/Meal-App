@@ -2,7 +2,7 @@
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
 	function onDeviceReady(){
-		//alert('The Device is Ready!');
+		alert('The Device is Ready!');
 	}
 	
 	// Create the database
@@ -10,14 +10,51 @@
 		//console.log('storage open');
 	});
 	
+	var categories = Lawnchair({name:'categories'},function(e){
+		//console.log('storage open');
+	});
+
+	function UpdateCategories(){
+			// meals.all(function(arrMeals){
+				// var cat_array = [];
+				// for(var i = 0; i<arrMeals.length;i++)
+				// {
+					// var meal = arrMeals[i].value,
+								// cat_name = meal.category_name,
+								// cat_id = meal.category_id,
+								// array = [cat_name, cat_id];
+								// cat_array.push(array);
+					// console.log(cat_array);
+					// console.log(meal.category_name);
+					//console.log(meal.category_id);
+				// }
+		// });
+	
+	}
+
+	
 	// clear the db
 	//meals.nuke();
 	
+	function ReduceCategories(){
+			categories.all(function(array){
+			for(var i = 0; i<array.length;i++)
+			{
+				var cat = array.value;
+				console.log(cat);
+			}
+			$('#meals').listview("refresh");
+		});
+	}
+	
 	function SaveNewCategory(){
+				alert('Begin save cat');
 		var new_cat = $('#addcategory').val(),
 					last_option_val = $('#category option:last-child').val();
 					new_option_val = parseInt(last_option_val) + 1,
 					new_option = '<option value="' + new_option_val + '">' + new_cat + '</option>';
+					categories.save({key: new_option_val, name: new_cat }); 
+					//console.log(categories);
 		$('#category').append(new_option);
 	}
 	
@@ -29,8 +66,9 @@
 	}
 	
 	function SaveMeal(){
+		alert('Begin save meal');
 		var name = $('#name').val(),
-					category_name = $('#category').text(),
+					category_name = $('#category option:selected').text(),
 					category_id = $('#category').val(),
 					comment = $('#comments').val(),
 					rating = $('#rating').val(),
@@ -38,8 +76,9 @@
 					cat_options = $('#category').find('option'),
 					cat_options_len = cat_options.length,
 	        mealID = randomUUID(),
-					meal = { name: name, category_name: category_name, category_id: category_id, comments: comment, rating: rating, link: link };
+					meal = { name: name, category: category_name, category_id: category_id, comments: comment, rating: rating, link: link };
 					
+					//console.log(category_name);
     // meal name must be greater than 3 characters
 		if(name.length <= 4){
 			ValidateInput('#name', 'Meal name must be longer than 3 characters');
@@ -53,10 +92,13 @@
 			}
 			// check to see if a category has been selected
 			if(category_id != '0'){
-				console.log('save meal');
+				//console.log('save meal');
+				//console.log(category_name);
 				meals.save({key: mealID, value:meal}); 
+				var page_url = '#meal?mealID=' + mealID;
+				$.mobile.changePage(page_url, 'none');
 			} else {
-			  console.log('save failed');
+			  //console.log('save failed');
 				$('#category').parent().css({ 'border' : 'solid 1px red', 'color' : 'red' });
 				$('#category').change(function(){
 					if($(this).val() != 0) {
@@ -68,7 +110,7 @@
 			}
 		}
 
-		var item = '<li id="' + mealID + '"><a href="#meal" data-transition="slide">' + name + '</a></li>';
+		var item = '<li id="' + mealID + '" data-mini="true"><a href="#meal" data-transition="slide">' + name + '</a></li>';
 		$('#meals').append(item);
 		//$('#meals').append('<a class="delete" onclick="' + DeleteMeal(mealID) + '" href="#">Delete Meal</a>');
 		$('#add-meal').live('pageinit', function(event){
@@ -80,7 +122,7 @@
 			$.urlParam = function(name){
 			var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href),
 						mealID = results[1];
-			console.log('results: ' + results[1]);
+			//console.log('results: ' + results[1]);
 		
 			return mealID || 0;
 		}
@@ -88,7 +130,7 @@
 		var meal_id = $.urlParam('mealID');
 		meals.get(meal_id, function(results){
 			var meal = results.value;
-			console.log(meal);
+			//console.log(meal);
 			$('#meal h1').text(meal.name);
 			$('#meal h2').text(meal.category);
 			$('#meal .rating').text(meal.rating);
@@ -169,13 +211,20 @@
 	 
 		$('#home').live('pageinit', function(){
 				AllMeals();
-				//$('#meals').listview('refresh');
-				console.log('home page');
+				//console.log('home page init');
+				UpdateCategories();
+				ReduceCategories();
 			});
 			
+			$('#home').live('pageshow', function(){
+					//console.log('home page show');
+					$('#meals').listview('refresh');
+			});
 
-			$('#add-meal').live('pageinit', function(){
+			$('#add-meal').live('pageshow', function(){
+				//console.log('add meal page show');
 				$('#savecategory').click(function(e){
+					//alert('save cat');
 					SaveNewCategory();
 					$('#category_add_new.ui-dialog').dialog('close');
 				});
@@ -189,10 +238,15 @@
 			$('#delete_db').click(function(){
 				meals.nuke();
 			});
+			
+			$('#delete_cat').click(function(){
+				categories.nuke();
+			});
+							
 		});
 		
 		$('#meal').live('pageshow', function(event){
-			console.log('meal page');
+			//console.log('meal page');
 			var current_url = window.location.href;
 			//console.log('meal page url: ' + current_url);
 			MealView();
