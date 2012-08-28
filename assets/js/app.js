@@ -30,7 +30,7 @@
 	
 	function SaveMeal(){
 		var name = $('#name').val(),
-					category_name = $('#category').val(),
+					category_name = $('#category').text(),
 					category_id = $('#category').val(),
 					comment = $('#comments').val(),
 					rating = $('#rating').val(),
@@ -52,12 +52,12 @@
 				} 
 			}
 			// check to see if a category has been selected
-			if(category != 0){
+			if(category_id != '0'){
+				console.log('save meal');
 				meals.save({key: mealID, value:meal}); 
 			} else {
-				console.log('category val: ' + category);
+			  console.log('save failed');
 				$('#category').parent().css({ 'border' : 'solid 1px red', 'color' : 'red' });
-				//$('#category option:first').css({ 'border' : 'solid 1px red', 'color' : 'red' });
 				$('#category').change(function(){
 					if($(this).val() != 0) {
 						$(this).parent().removeAttr('style');
@@ -67,21 +67,8 @@
 				});
 			}
 		}
-		//console.log(name + ' ' + category + ' ' + comment);
-		
-//		var obj1 = {beername:"Wet Hop",brewername:"Deschuttes",brewerlocation:"Bend, OR"
-//			,beerstyle:"IPA",quantity:1,purchasedate:"12/11/2011",price:"9.00"
-//			,cellardate:"9/11/2011",cellartemp:40,brewdate:"8/10/2011"};
-//		var obj2 = {beername:"Vertical Epic 11",brewername:"Stone",brewerlocation:"San Diego, CA"
-//			,beerstyle:"Belgian",quantity:1,purchasedate:"1/10/2011",price:"15.00"
-//			,cellardate:"1/12/2011",cellartemp:45,brewdate:"10/10/2010"};				
-//		meals.save({key:"1",value:obj1});   	
-//		meals.save({key:"2",value:obj2});
-		//alert(obj1.beername);
-		
-		// Append the saved meal to the displayed list
-		//var item = '<li id="' + mealID + '">' + name + '<a class="edit" onclick="' + EditMeal(mealID) + '" href="#">Edit Meal</a></li>';
-		var item = '<li id="' + mealID + '"><a href="#meal" data-transition="none">' + name + '</a></li>';
+
+		var item = '<li id="' + mealID + '"><a href="#meal" data-transition="slide">' + name + '</a></li>';
 		$('#meals').append(item);
 		//$('#meals').append('<a class="delete" onclick="' + DeleteMeal(mealID) + '" href="#">Delete Meal</a>');
 		$('#add-meal').live('pageinit', function(event){
@@ -98,7 +85,16 @@
 			return mealID || 0;
 		}
 		
-		$.urlParam('mealID');
+		var meal_id = $.urlParam('mealID');
+		meals.get(meal_id, function(results){
+			var meal = results.value;
+			console.log(meal);
+			$('#meal h1').text(meal.name);
+			$('#meal h2').text(meal.category);
+			$('#meal .rating').text(meal.rating);
+			$('#meal .notes').text(meal.comments);
+			$('#meal .recipe-link').attr('href', meal.link).text(meal.link);
+		});
 
 	}
 		
@@ -111,7 +107,7 @@
 				var mealID = arrMeals[i].key;
 				//var item = '<li id="' + mealID + '">' + arrMeals[i].value.name + '<a class="edit" onclick="' + EditMeal(mealID) + '" href="#">Edit Meal</a></li>';
 				//var item = '<li data-mini="true"><a class="" id="' + mealID + '" href="#">' + arrMeals[i].value.name + '</a></li>';
-				var item = '<li data-mini="true" id="' + mealID + '"><a href="#meal?mealID=' + mealID + '" data-transition="none">' + arrMeals[i].value.name + '</a></li>';
+				var item = '<li data-mini="true" id="' + mealID + '"><a href="#meal?mealID=' + mealID + '" data-transition="slide">' + arrMeals[i].value.name + '</a></li>';
 				$('#meals').append(item);
 				//$('#meals').append('<a class="delete" onclick="' + DeleteMeal(mealID) + '" href="#">Delete Meal</a>');
 			}
@@ -145,9 +141,9 @@
 		//meals.remove(mealID);
 		$(element).remove();
 		//$('#meals').listview("refresh");
-		$('#edit-meal').live('pageinit', function(event){
+/* 		$('#edit-meal').live('pageinit', function(event){
 				$('#meals').listview("refresh");
-		});
+		}); */
 	}
 	
 	// Create randome ID
@@ -189,27 +185,18 @@
 				});
 			});
 			
-		$('#settings').live('pageinit', function(){
+		$('#settings').live('pageshow', function(){
 			$('#delete_db').click(function(){
 				meals.nuke();
 			});
 		});
 		
-		$('#meal').live('pageinit', function(event){
+		$('#meal').live('pageshow', function(event){
 			console.log('meal page');
 			var current_url = window.location.href;
-			console.log('meal page url: ' + current_url);
+			//console.log('meal page url: ' + current_url);
 			MealView();
-		var meal_id = $.urlParam('mealID');
-		meals.get(meal_id, function(results){
-			var meal = results.value;
-			console.log(meal);
-			$('#meal h1').text(meal.name);
-			$('#meal h2').text(meal.category);
-			$('#meal .rating').text(meal.rating);
-			$('#meal .notes').text(meal.comments);
-			$('#meal .recipe-link').attr('href', meal.link).text(meal.link);
-		});
+
 	});
 	 
 

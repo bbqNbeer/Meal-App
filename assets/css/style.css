@@ -1,7 +1,7 @@
 /* Hack to fix jquery mobile transitions */
-/*.ui-page {
+.ui-page {
 	-webkit-backface-visibility: hidden;
-}*/
+}
 
 .ui-content .ui-listview {
 margin-top: 0px;
